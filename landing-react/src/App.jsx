@@ -47,6 +47,16 @@ const rules = [
   ["Оставьте прогноз", "Сделайте прогноз на точный счёт, чтобы участвовать в розыгрыше главных призов."],
 ];
 
+const faqItems = [
+  ["join", "Как принять участие?", "Выберите удобный бот — Telegram или MAX — и пройдите быструю регистрацию. После этого бот выдаст ваш персональный QR-код участника."],
+  ["subscription", "Нужно подписываться и на Telegram, и на MAX?", "Нет. Для участия достаточно выбрать и подписаться на один из ресурсов — Telegram или MAX."],
+  ["qr", "Зачем нужен QR-код и где его показывать?", "QR-код подтверждает ваше участие. Показывайте его перед каждой активностью в фан-зоне, чтобы получить баллы за конкурс."],
+  ["activities", "В каких активностях можно участвовать?", "Вас ждут шесть активностей: удар по воротам, футбольный квиз, змейка, колесо фортуны, чеканка и конкурс кричалок. Участвуйте в одной или проходите все."],
+  ["points", "Как начисляются баллы и на что их можно обменять?", "Баллы начисляются за участие в активностях. Накопленные баллы можно обменять на фирменную атрибутику «Локомотива»."],
+  ["prediction", "Как получить возможность сделать прогноз на матч?", "После регистрации в Telegram-боте вы сможете сделать прогноз на матч. Он даёт возможность участвовать в розыгрыше главного приза."],
+  ["prizes", "Какие призы можно выиграть?", "Главные призы — PlayStation 5, билеты на RDRC и мячи с автографами. За баллы в активностях также можно выбрать фанатскую атрибутику."],
+];
+
 const clampScore = (value) => Math.max(0, Math.min(9, value));
 
 function ChannelButton({ channel, compact = false, hero = false, onOpen }) {
@@ -86,16 +96,112 @@ function CtaButton({ channel, onOpen }) {
   );
 }
 
+function PrivacyPolicyDialog({ open, onClose }) {
+  const closeButton = useRef(null);
+  const dialog = useRef(null);
+
+  useEffect(() => {
+    if (!open) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const focusable = [...(dialog.current?.querySelectorAll("a[href], button:not([disabled])") ?? [])];
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+    window.requestAnimationFrame(() => closeButton.current?.focus());
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return (
+    <div className="privacy-dialog__backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
+      <section className="privacy-dialog" ref={dialog} role="dialog" aria-modal="true" aria-labelledby="privacy-title">
+        <header className="privacy-dialog__header">
+          <p>ФК Локомотив × SWM</p>
+          <button ref={closeButton} className="privacy-dialog__close" type="button" onClick={onClose} aria-label="Закрыть политику конфиденциальности"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg></button>
+        </header>
+        <div className="privacy-dialog__scroll">
+          <div className="privacy-dialog__content">
+            <h2 id="privacy-title">Политика обработки персональных данных</h2>
+            <p className="privacy-dialog__lead">для участников мероприятия «ФК Локомотив × SWM»</p>
+
+            <h3>1. Оператор и область действия</h3>
+            <p>Оператор персональных данных — Общество с ограниченной ответственностью «АСЦ» (ООО «АСЦ»), ОГРН 1257700197974, ИНН 7743470305, адрес: 125080, г. Москва, Волоколамское ш., д. 1, стр. 1, помещ. 55/8.</p>
+            <p>Политика применяется к сайту мероприятия «ФК Локомотив × SWM».</p>
+
+            <h3>2. Что происходит на сайте</h3>
+            <p>На сайте нет форм для ввода персональных данных, личного кабинета и регистрации. Выбор счёта в блоке прогноза работает только в браузере пользователя и не направляется Оператору.</p>
+            <p>Сайт содержит кнопки перехода в Telegram и MAX. Сам по себе переход по такой ссылке не означает передачу Оператору персональных данных, введённых или хранящихся в соответствующем сервисе.</p>
+
+            <h3>3. Яндекс.Метрика</h3>
+            <p>Для анализа посещаемости и улучшения работы сайта Оператор использует сервис веб-аналитики Яндекс.Метрика. Счётчик автоматически собирает сведения о посещении сайта и действиях на его страницах, технические данные об устройстве, браузере и операционной системе, файлы cookie и IP-адрес.</p>
+            <p>Яндекс обрабатывает эти данные по поручению Оператора для предоставления статистики. Условия обработки данных сервисом опубликованы в <a href="https://yandex.ru/legal/metrica_termsofuse/ru/" rel="noopener noreferrer" target="_blank">условиях использования Яндекс.Метрики</a>. Для учёта посетителей сервис использует идентификаторы браузера, сохраняемые в cookie и localStorage.</p>
+            <p>Пользователь может ограничить или удалить cookie в настройках браузера. В этом случае отдельные функции статистики могут работать некорректно.</p>
+
+            <h3>4. Telegram, MAX и боты</h3>
+            <p>Регистрация участника, выдача QR-кода и прогноз результата, если они доступны, выполняются в ботах Telegram или MAX, а не на этом сайте. К отношениям пользователя с владельцами этих сервисов применяются их собственные документы и настройки конфиденциальности.</p>
+            <p>Если бот запрашивает персональные данные для участия в мероприятии, до их предоставления пользователю должны быть доступны сведения о составе данных, целях и сроке обработки, Операторе и порядке отзыва согласия. Настоящая страница не заменяет такие сведения или согласие в боте.</p>
+
+            <h3>5. Принципы и меры защиты</h3>
+            <p>Оператор обрабатывает персональные данные в соответствии с Федеральным законом от 27.07.2006 № 152-ФЗ «О персональных данных»: для конкретных и законных целей, в объёме, необходимом для их достижения, и с применением правовых, организационных и технических мер защиты.</p>
+            <p>Оператор принимает необходимые правовые, организационные и технические меры для защиты персональных данных от неправомерного или случайного доступа, уничтожения, изменения, блокирования, копирования, предоставления и распространения.</p>
+            <p>Персональные данные уничтожаются или обезличиваются после достижения цели обработки, если иной срок не установлен законодательством Российской Федерации или законным основанием обработки.</p>
+
+            <h3>6. Права участника</h3>
+            <p>Участник вправе получить сведения об обработке своих данных, потребовать уточнения, блокирования или уничтожения данных в случаях, установленных законом, а также отозвать согласие на их обработку.</p>
+            <p>Для обращения по вопросам обработки данных или отзыва согласия направьте письмо на <a href="mailto:info@ascauto.ru">info@ascauto.ru</a>. Оператор рассматривает обращения в сроки, установленные законодательством Российской Федерации.</p>
+
+            <h3>7. Заключительные положения</h3>
+            <p>К настоящей Политике применяется законодательство Российской Федерации, включая Федеральный закон от 27.07.2006 № 152-ФЗ «О персональных данных». Оператор вправе обновить Политику при изменении порядка обработки данных или требований законодательства. Актуальная редакция размещается в этом окне на сайте мероприятия.</p>
+            <p className="privacy-dialog__updated">Дата публикации: 21 августа 2026 года.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
 export default function App() {
   const [scores, setScores] = useState({ home: 2, away: 1 });
   const [toast, setToast] = useState(null);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
+  const [openFaqId, setOpenFaqId] = useState("join");
   const [backToTopVisible, setBackToTopVisible] = useState(false);
   const page = useRef(null);
   const toastTimer = useRef();
   const centerpiece = useRef(null);
   const registration = useRef(null);
+  const privacyTrigger = useRef(null);
 
   useEffect(() => () => window.clearTimeout(toastTimer.current), []);
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => ScrollTrigger.refresh());
+    return () => window.cancelAnimationFrame(frame);
+  }, [openFaqId]);
 
   useEffect(() => {
     const updateVisibility = () => {
@@ -112,6 +218,11 @@ export default function App() {
       window.removeEventListener("resize", updateVisibility);
     };
   }, []);
+
+  function closePrivacy() {
+    setPrivacyOpen(false);
+    window.setTimeout(() => privacyTrigger.current?.focus(), 0);
+  }
 
   useLayoutEffect(() => {
     const root = page.current;
@@ -384,13 +495,42 @@ export default function App() {
         </div></section>
 
         <section className="final-cta"><div className="final-cta__noise" aria-hidden="true" /><div className="final-cta__content reveal"><h2>Ваш путь к призам<br />начинается здесь.</h2><div className="final-cta__buttons"><ChannelButton channel="telegram" compact onOpen={openChannel} /><ChannelButton channel="max" compact onOpen={openChannel} /></div></div></section>
+
+        <section className="section section--faq" id="faq" aria-labelledby="faq-title">
+          <div className="section__inner faq-layout">
+            <div className="section-heading faq-heading reveal">
+              <span className="faq-heading__eyebrow">Вопрос / ответ</span>
+              <h2 id="faq-title">Всё, что важно знать перед матчем.</h2>
+              <p>Собрали ответы, чтобы вы быстро перешли от регистрации к участию и призам.</p>
+            </div>
+            <div className="faq-list">
+              {faqItems.map(([id, question, answer], index) => {
+                const isOpen = openFaqId === id;
+                const answerId = `faq-answer-${id}`;
+                return (
+                  <article className={`faq-item reveal${isOpen ? " is-open" : ""}`} key={id}>
+                    <button className="faq-item__trigger" type="button" aria-expanded={isOpen} aria-controls={answerId} onClick={() => setOpenFaqId(isOpen ? null : id)}>
+                      <span className="faq-item__number">{String(index + 1).padStart(2, "0")}</span>
+                      <span className="faq-item__question">{question}</span>
+                      <span className="faq-item__icon" aria-hidden="true" />
+                    </button>
+                    <div className="faq-item__answer-wrap" id={answerId} role="region" aria-label={question} aria-hidden={!isOpen}>
+                      <div className="faq-item__answer"><p>{answer}</p></div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+        </section>
       </main>
 
-      <footer><div className="footer-brand"><img src="/cobrand-optimized.jpg" alt="ФК Локомотив × SWM" /></div><p>Болейте вместе с «Локомотивом»</p><div className="footer-links"><a href="/privacy-policy.html">Политика конфиденциальности</a><a href="/privacy-policy.html">Политика обработки персональных данных</a><a href="/contest-rules.html">Правила проведения конкурса</a></div></footer>
+      <footer><div className="footer-brand"><img src="/cobrand-optimized.jpg" alt="ФК Локомотив × SWM" /></div><p>Болейте вместе с «Локомотивом»</p><div className="footer-links"><button className="footer-policy-link" type="button" ref={privacyTrigger} onClick={() => setPrivacyOpen(true)}>Политика конфиденциальности</button><a href="/privacy-policy.html">Политика обработки персональных данных</a><a href="/contest-rules.html">Правила проведения конкурса</a></div></footer>
 
       {backToTopVisible && <button className="back-to-top is-visible" type="button" onClick={scrollToTop} aria-label="Вернуться наверх"><span aria-hidden="true">↑</span><b>Наверх</b></button>}
 
       <div className={`toast${toast ? " is-visible" : ""}`} role="status" aria-live="polite" hidden={!toast}><strong>Почти готово!</strong><span>Добавьте ссылку для {toast === "telegram" ? "Telegram" : "MAX"} в файле App.jsx.</span></div>
+      <PrivacyPolicyDialog open={privacyOpen} onClose={closePrivacy} />
     </div>
   );
 }
