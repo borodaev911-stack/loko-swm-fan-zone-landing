@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Футбольный квиз — оборот карточки</title>
+    <style>
+      :root { color-scheme: dark; }
+      * { box-sizing: border-box; }
+      html, body { width: 100%; min-height: 100%; margin: 0; }
+      body {
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        background: #050807;
+      }
+      .card {
+        position: relative;
+        width: 1800px;
+        height: 1200px;
+        isolation: isolate;
+        overflow: hidden;
+        background: #041b18 url('./quiz-card-background-v1.png') center / cover no-repeat;
+      }
+      .card::before {
+        position: absolute;
+        z-index: 1;
+        inset: 0;
+        content: '';
+        background:
+          linear-gradient(90deg, rgba(4, 27, 24, .48), transparent 17%, transparent 83%, rgba(4, 27, 24, .48)),
+          linear-gradient(180deg, rgba(0, 0, 0, .16), transparent 25%, transparent 74%, rgba(0, 0, 0, .28));
+        pointer-events: none;
+      }
+      .frame {
+        position: absolute;
+        z-index: 3;
+        inset: 55px;
+        border: 4px solid rgba(245, 240, 223, .82);
+        box-shadow: inset 0 0 0 12px rgba(4, 27, 24, .5);
+        pointer-events: none;
+      }
+      .corner-mark {
+        position: absolute;
+        z-index: 4;
+        width: 55px;
+        height: 55px;
+        border-color: #c9ef46;
+        border-style: solid;
+        opacity: .95;
+      }
+      .corner-mark--tl { top: 81px; left: 81px; border-width: 5px 0 0 5px; }
+      .corner-mark--br { right: 81px; bottom: 81px; border-width: 0 5px 5px 0; }
+      .lockup {
+        position: absolute;
+        z-index: 5;
+        top: 50%;
+        left: 50%;
+        width: 1030px;
+        height: 455px;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        border: 5px solid #f5f0df;
+        border-radius: 28px;
+        background: #062b25;
+        box-shadow: 20px 23px 0 #101817, 0 0 0 11px rgba(201, 239, 70, .66);
+        transform: translate(-50%, -50%) rotate(-1.2deg);
+      }
+      .lockup::before {
+        position: absolute;
+        inset: -30%;
+        z-index: -1;
+        content: '';
+        background: url('./cobrand-lockup.jpg') center / cover no-repeat;
+        filter: blur(18px) saturate(1.24);
+        opacity: .86;
+        transform: scale(1.22);
+      }
+      .lockup::after {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        content: '';
+        background: linear-gradient(110deg, rgba(4, 27, 24, .3), transparent 48%, rgba(236, 28, 43, .18));
+      }
+      .lockup img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .spark {
+        position: absolute;
+        z-index: 4;
+        width: 114px;
+        height: 114px;
+        background: #c9ef46;
+        clip-path: polygon(50% 0, 61% 26%, 86% 13%, 74% 39%, 100% 50%, 74% 61%, 87% 87%, 61% 74%, 50% 100%, 39% 74%, 13% 87%, 26% 61%, 0 50%, 26% 39%, 13% 13%, 39% 26%);
+        filter: drop-shadow(8px 9px 0 #101817);
+      }
+      .spark--left { top: 175px; left: 227px; transform: rotate(-13deg); }
+      .spark--right { right: 216px; bottom: 162px; width: 84px; height: 84px; background: #ec1c2b; transform: rotate(17deg); }
+      @media print {
+        @page { size: 60mm 40mm; margin: 0; }
+        body { display: block; background: none; }
+        .card { width: 60mm; height: 40mm; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="card" aria-label="Оборот карточки футбольного квиза Локомотив × SWM">
+      <div class="frame" aria-hidden="true"></div>
+      <div class="corner-mark corner-mark--tl" aria-hidden="true"></div>
+      <div class="corner-mark corner-mark--br" aria-hidden="true"></div>
+      <div class="spark spark--left" aria-hidden="true"></div>
+      <div class="spark spark--right" aria-hidden="true"></div>
+      <div class="lockup"><img src="./cobrand-lockup.jpg" alt="Локомотив × SWM" /></div>
+    </main>
+  </body>
+</html>

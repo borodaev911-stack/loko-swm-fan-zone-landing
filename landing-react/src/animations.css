@@ -1,0 +1,93 @@
+[data-motion="enhanced"] .hero__heading,
+[data-motion="enhanced"] .hero__registration {
+  animation: none;
+}
+
+.hero__registration {
+  margin-top: 5px;
+}
+
+.prize-caption {
+  margin-top: 8px;
+}
+
+.merch-card--bonus {
+  color: var(--ink);
+  background: #fff;
+}
+
+.merch-card--bonus .merch-card__image {
+  background: #e8e5d9;
+}
+
+.merch-card--bonus > div:last-child span {
+  color: var(--red-dark);
+}
+
+.merch-card--bonus p {
+  color: inherit;
+  opacity: 0.7;
+}
+
+.hero__registration .channel__icon-wrap {
+  width: 92px;
+  height: 92px;
+}
+
+.hero__registration .channel strong {
+  font-family: "Manrope", Arial, sans-serif;
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.hero__registration .channel__overline {
+  font-size: 10px;
+}
+
+.hero__or {
+  display: none;
+}
+
+@media (max-width: 820px) {
+  .hero__registration .channel__icon-wrap {
+    width: 54px;
+    height: 54px;
+  }
+
+  .hero__registration .channel strong {
+    font-size: 18px;
+  }
+
+  .hero__or {
+    display: grid;
+    place-items: center;
+    align-items: center;
+    width: max-content;
+    padding: 4px 9px;
+    color: var(--ink);
+    background: var(--lime);
+    border: 2px solid var(--ink);
+    font-size: 9px;
+    font-weight: 800;
+    line-height: 1;
+    text-align: center;
+    text-transform: uppercase;
+    transform: rotate(2deg);
+  }
+
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    will-change: transform, opacity;
+  }
+
+  .hero__halftone,
+  .score-burst,
+  .legend-portrait,
+  .legend-visual__burst,
+  .legend-visual__halo,
+  .legend-visual__net {
+    will-change: transform;
+  }
+}

@@ -1,0 +1,17 @@
+.DS_Store
+
+# Local agent and browser state
+.agents/
+.playwright-cli/
+graphify-out/
+skills-lock.json
+
+# Generated previews and media exports
+output/
+outputs/
+/assets/
+
+# React build artifacts
+landing-react/node_modules/
+landing-react/dist/
+landing-react/.vite/

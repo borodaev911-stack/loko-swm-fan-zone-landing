@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1800" height="1200" viewBox="0 0 1800 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Оборот карточки футбольного квиза Локомотив × SWM</title>
+  <desc id="desc">Карточка 60 на 40 миллиметров с зелёно-красным спортивным фоном и бренд-блоком Локомотив × SWM.</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="150%" height="160%">
+      <feDropShadow dx="20" dy="23" stdDeviation="0" flood-color="#101817"/>
+      <feDropShadow dx="0" dy="0" stdDeviation="0" flood-color="#c9ef46" flood-opacity=".66"/>
+    </filter>
+    <filter id="soften" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="18"/></filter>
+    <clipPath id="lockupClip"><rect x="385" y="373" width="1030" height="455" rx="28"/></clipPath>
+    <clipPath id="burstClip"><path d="M50 0 61 26 86 13 74 39 100 50 74 61 87 87 61 74 50 100 39 74 13 87 26 61 0 50 26 39 13 13 39 26Z"/></clipPath>
+  </defs>
+  <image x="0" y="0" width="1800" height="1200" preserveAspectRatio="xMidYMid slice" xlink:href="quiz-card-background-v1.png"/>
+  <rect width="1800" height="1200" fill="url(#edge)" opacity=".1"/>
+  <rect x="55" y="55" width="1690" height="1090" fill="none" stroke="#f5f0df" stroke-width="4" opacity=".82"/>
+  <rect x="67" y="67" width="1666" height="1066" fill="none" stroke="#041b18" stroke-width="12" stroke-opacity=".5"/>
+  <path d="M81 136V81H136" fill="none" stroke="#c9ef46" stroke-width="5"/>
+  <path d="M1664 1119H1719V1064" fill="none" stroke="#c9ef46" stroke-width="5"/>
+  <g transform="translate(227 175) rotate(-13 57 57)" filter="url(#shadow)"><path d="M57 0 70 30 98 15 84 44 114 57 84 70 99 99 70 84 57 114 44 84 15 99 30 70 0 57 30 44 15 15 44 30Z" fill="#c9ef46"/></g>
+  <g transform="translate(1500 950) rotate(17 42 42)" filter="url(#shadow)"><path d="M42 0 52 22 72 11 63 33 84 42 63 52 73 73 52 63 42 84 33 63 11 73 22 52 0 42 22 33 11 11 33 22Z" fill="#ec1c2b"/></g>
+  <rect x="374" y="362" width="1052" height="477" rx="38" fill="#c9ef46" opacity=".66"/>
+  <rect x="385" y="373" width="1030" height="455" rx="28" fill="#062b25" stroke="#f5f0df" stroke-width="5"/>
+  <g clip-path="url(#lockupClip)">
+    <image x="255" y="243" width="1290" height="1290" preserveAspectRatio="xMidYMid slice" xlink:href="cobrand-lockup.jpg" filter="url(#soften)" opacity=".86"/>
+    <rect x="385" y="373" width="1030" height="455" fill="url(#shade)"/>
+  </g>
+  <rect x="385" y="373" width="1030" height="455" rx="28" fill="none" stroke="#f5f0df" stroke-width="5"/>
+  <image x="385" y="373" width="1030" height="455" preserveAspectRatio="xMidYMid slice" xlink:href="cobrand-lockup.jpg"/>
+  <defs>
+    <linearGradient id="edge" x1="0" x2="1"><stop stop-color="#041b18"/><stop offset=".17" stop-color="#041b18" stop-opacity="0"/><stop offset=".83" stop-color="#041b18" stop-opacity="0"/><stop offset="1" stop-color="#041b18"/></linearGradient>
+    <linearGradient id="shade" x1="0" x2="1"><stop stop-color="#041b18" stop-opacity=".3"/><stop offset=".48" stop-color="#041b18" stop-opacity="0"/><stop offset="1" stop-color="#ec1c2b" stop-opacity=".18"/></linearGradient>
+  </defs>
+</svg>
