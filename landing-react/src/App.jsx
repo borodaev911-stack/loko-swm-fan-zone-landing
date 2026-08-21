@@ -495,7 +495,7 @@ export default function App() {
             <div className="scoreboard reveal" role="group" aria-label="Пример прогноза на точный счёт">
               <div className="scoreboard__team"><img src="/fclm-logo-small.png" alt="Локомотив" /><span>Локомотив</span></div>
               <div className="scoreboard__digits"><span>{scores.home}</span><i>:</i><span>{scores.away}</span></div>
-              <div className="scoreboard__team scoreboard__team--opponent"><div aria-hidden="true">?</div><span>Соперник</span></div>
+              <div className="scoreboard__team scoreboard__team--opponent"><img src="/dynamo-moscow-logo.png" alt="Динамо Москва" /><span>Динамо Москва</span></div>
               <div className="scoreboard__footer"><div className="scoreboard__controls">
                 <div className="scoreboard__control-group"><button type="button" onClick={() => changeScore("home", -1)} aria-label="Уменьшить счёт Локомотива">−</button><span>Локомотив</span><button type="button" onClick={() => changeScore("home", 1)} aria-label="Увеличить счёт Локомотива">+</button></div>
                 <div className="scoreboard__control-group"><button type="button" onClick={() => changeScore("away", -1)} aria-label="Уменьшить счёт соперника">−</button><span>Соперник</span><button type="button" onClick={() => changeScore("away", 1)} aria-label="Увеличить счёт соперника">+</button></div>

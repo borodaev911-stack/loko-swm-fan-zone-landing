@@ -495,7 +495,7 @@ img { display: block; max-width: 100%; }
 .scoreboard::before { content: "ТОЧНЫЙ СЧЁТ"; position: absolute; left: 50%; top: 17px; transform: translateX(-50%); font-size: 10px; font-weight: 800; }
 .scoreboard__team { display: flex; flex-direction: column; align-items: center; gap: 11px; text-align: center; font-weight: 800; font-size: 12px; text-transform: uppercase; }
 .scoreboard__team img { width: 78px; height: 88px; object-fit: contain; }
-.scoreboard__team--opponent > div { display: grid; place-items: center; width: 74px; height: 74px; color: #fff; background: var(--green-dark); border-radius: 50%; font-family: "Russo One", sans-serif; font-size: 38px; }
+.scoreboard__team--opponent { min-height: 113px; justify-content: flex-end; }
 .scoreboard__digits { display: flex; align-items: center; gap: 8px; font-family: "Russo One", sans-serif; font-size: clamp(62px, 6.2vw, 90px); line-height: 1; }
 .scoreboard__digits span { min-width: .72em; padding: 5px; color: #fff; background: var(--red); text-align: center; box-shadow: 5px 6px 0 var(--ink); }
 .scoreboard__digits i { font-style: normal; }
@@ -721,8 +721,8 @@ footer a { color: #fff; font-weight: 800; text-decoration: none; }
   .sticker-inline { margin-bottom: 16px; padding: 6px 9px; font-size: 11px; }
   .scoreboard { min-height: 350px; padding: 48px 8px 158px; column-gap: 4px; border-width: 4px; box-shadow: 7px 8px 0 var(--green-deep); }
   .scoreboard__team img { width: 52px; height: 62px; }
-  .scoreboard__team--opponent > div { width: 52px; height: 52px; font-size: 28px; }
   .scoreboard__team { gap: 7px; font-size: 8px; }
+  .scoreboard__team--opponent { min-height: 77px; }
   .scoreboard__digits { gap: 4px; font-size: clamp(43px, 13vw, 54px); }
   .scoreboard__digits span { padding: 3px; box-shadow: 4px 5px 0 var(--ink); }
   .scoreboard__footer { inset-inline: 10px; bottom: 14px; gap: 10px; }
