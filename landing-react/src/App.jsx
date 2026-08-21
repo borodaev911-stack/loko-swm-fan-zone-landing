@@ -190,13 +190,18 @@ export default function App() {
   const [privacyOpen, setPrivacyOpen] = useState(false);
   const [openFaqId, setOpenFaqId] = useState("join");
   const [backToTopVisible, setBackToTopVisible] = useState(false);
+  const [scoreRegistrationOpen, setScoreRegistrationOpen] = useState(false);
   const page = useRef(null);
   const toastTimer = useRef();
+  const scoreRegistrationTimer = useRef();
   const centerpiece = useRef(null);
   const registration = useRef(null);
   const privacyTrigger = useRef(null);
 
-  useEffect(() => () => window.clearTimeout(toastTimer.current), []);
+  useEffect(() => () => {
+    window.clearTimeout(toastTimer.current);
+    window.clearTimeout(scoreRegistrationTimer.current);
+  }, []);
 
   useEffect(() => {
     const frame = window.requestAnimationFrame(() => ScrollTrigger.refresh());
@@ -376,6 +381,18 @@ export default function App() {
     setScores((current) => ({ ...current, [team]: clampScore(current[team] + delta) }));
   }
 
+  function showScoreRegistration() {
+    setScoreRegistrationOpen(true);
+    window.clearTimeout(scoreRegistrationTimer.current);
+    scoreRegistrationTimer.current = window.setTimeout(() => setScoreRegistrationOpen(false), 20000);
+    window.requestAnimationFrame(() => {
+      registration.current?.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        block: "center",
+      });
+    });
+  }
+
   function moveCenterpiece(event) {
     if (!window.matchMedia("(pointer: fine)").matches || !centerpiece.current) return;
     const x = (event.clientX / window.innerWidth - 0.5) * 8;
@@ -408,16 +425,25 @@ export default function App() {
         <div className="hero__registration" ref={registration} role="group" aria-label="Способы регистрации">
           <ChannelButton channel="telegram" hero onOpen={openChannel} />
           <span className="hero__or">или</span>
-          <div className="hero__centerpiece" ref={centerpiece} role="img" aria-label="Главные призы: PlayStation 5, билеты на RDRC и мячи с автографами">
-            <div className="comic-title"><span className="comic-title__top">Болей. Играй.</span><strong>Выигрывай!</strong></div>
-            <div className="prize-collage" aria-hidden="true">
-              <div className="prize-collage__glow" />
-              <img className="prize-collage__ps5" src="/ps5-store77-large.jpg" alt="" />
-              <img className="prize-collage__ball" src="/ball-optimized.png" alt="" />
-              <div className="race-ticket"><div className="race-ticket__copy"><strong>RDRC</strong><span>БИЛЕТЫ НА ДРЭГ-РЕЙСИНГ</span></div></div>
-              <img className="prize-collage__scarf" src="/scarf-optimized.png" alt="" />
-            </div>
-            <div className="prize-caption"><span>Главные призы</span> PS5 / RDRC / мячи с автографами</div>
+          <div className={`hero__centerpiece${scoreRegistrationOpen ? " hero__centerpiece--registration" : ""}`} ref={centerpiece} role="img" aria-label={scoreRegistrationOpen ? "Чтобы сделать ставку, выберите регистрацию в Telegram или MAX" : "Главные призы: PlayStation 5, билеты на RDRC и мячи с автографами"}>
+            {scoreRegistrationOpen ? (
+              <div className="registration-prompt">
+                <span className="registration-prompt__eyebrow">Для прогноза</span>
+                <strong>Чтобы сделать<br />ставку</strong>
+                <p>зарегистрируйтесь<br /><b>в Telegram или MAX</b></p>
+                <img className="registration-prompt__arrow" src="/registration-pop-art-arrow-v1.png" alt="" aria-hidden="true" />
+              </div>
+            ) : <>
+              <div className="comic-title"><span className="comic-title__top">Болей. Играй.</span><strong>Выигрывай!</strong></div>
+              <div className="prize-collage" aria-hidden="true">
+                <div className="prize-collage__glow" />
+                <img className="prize-collage__ps5" src="/ps5-store77-large.jpg" alt="" />
+                <img className="prize-collage__ball" src="/ball-optimized.png" alt="" />
+                <div className="race-ticket"><div className="race-ticket__copy"><strong>RDRC</strong><span>БИЛЕТЫ НА ДРЭГ-РЕЙСИНГ</span></div></div>
+                <img className="prize-collage__scarf" src="/scarf-optimized.png" alt="" />
+              </div>
+              <div className="prize-caption"><span>Главные призы</span> PS5 / RDRC / мячи с автографами</div>
+            </>}
           </div>
           <ChannelButton channel="max" hero onOpen={openChannel} />
         </div>
@@ -473,7 +499,7 @@ export default function App() {
               <div className="scoreboard__footer"><div className="scoreboard__controls">
                 <div className="scoreboard__control-group"><button type="button" onClick={() => changeScore("home", -1)} aria-label="Уменьшить счёт Локомотива">−</button><span>Локомотив</span><button type="button" onClick={() => changeScore("home", 1)} aria-label="Увеличить счёт Локомотива">+</button></div>
                 <div className="scoreboard__control-group"><button type="button" onClick={() => changeScore("away", -1)} aria-label="Уменьшить счёт соперника">−</button><span>Соперник</span><button type="button" onClick={() => changeScore("away", 1)} aria-label="Увеличить счёт соперника">+</button></div>
-              </div><button className="scoreboard__submit" type="button" onClick={() => registration.current?.scrollIntoView({ behavior: "smooth", block: "center" })}>Поставить</button></div>
+              </div><button className="scoreboard__submit" type="button" onClick={showScoreRegistration}>Поставить</button></div>
             </div>
           </div>
           <div className="grand-prizes section__inner">{prizes.map(([label, art, title, description]) => (
