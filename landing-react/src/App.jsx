@@ -89,12 +89,28 @@ function CtaButton({ channel, onOpen }) {
 export default function App() {
   const [scores, setScores] = useState({ home: 2, away: 1 });
   const [toast, setToast] = useState(null);
+  const [backToTopVisible, setBackToTopVisible] = useState(false);
   const page = useRef(null);
   const toastTimer = useRef();
   const centerpiece = useRef(null);
   const registration = useRef(null);
 
   useEffect(() => () => window.clearTimeout(toastTimer.current), []);
+
+  useEffect(() => {
+    const updateVisibility = () => {
+      const heroHeight = document.querySelector(".hero")?.offsetHeight ?? window.innerHeight;
+      setBackToTopVisible(window.scrollY >= heroHeight);
+    };
+
+    updateVisibility();
+    window.addEventListener("scroll", updateVisibility, { passive: true });
+    window.addEventListener("resize", updateVisibility);
+    return () => {
+      window.removeEventListener("scroll", updateVisibility);
+      window.removeEventListener("resize", updateVisibility);
+    };
+  }, []);
 
   useLayoutEffect(() => {
     const root = page.current;
@@ -255,6 +271,13 @@ export default function App() {
     centerpiece.current.style.transform = `translate3d(${x}px, ${y}px, 0)`;
   }
 
+  function scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    });
+  }
+
   return (
     <div ref={page}>
       <a className="skip-link" href="#contests">Перейти к конкурсам</a>
@@ -361,7 +384,9 @@ export default function App() {
         <section className="final-cta"><div className="final-cta__noise" aria-hidden="true" /><div className="final-cta__content reveal"><h2>Ваш путь к призам<br />начинается здесь.</h2><div className="final-cta__buttons"><ChannelButton channel="telegram" compact onOpen={openChannel} /><ChannelButton channel="max" compact onOpen={openChannel} /></div></div></section>
       </main>
 
-      <footer><div className="footer-brand"><img src="/cobrand-optimized.jpg" alt="ФК Локомотив × SWM" /></div><p>Болейте вместе с «Локомотивом»</p><div className="footer-links"><a href="/privacy-policy.html">Политика конфиденциальности</a><a href="/contest-rules.html">Правила проведения конкурса</a><a href="#top">Наверх ↑</a></div></footer>
+      <footer><div className="footer-brand"><img src="/cobrand-optimized.jpg" alt="ФК Локомотив × SWM" /></div><p>Болейте вместе с «Локомотивом»</p><div className="footer-links"><a href="/privacy-policy.html">Политика конфиденциальности</a><a href="/contest-rules.html">Правила проведения конкурса</a></div></footer>
+
+      {backToTopVisible && <button className="back-to-top is-visible" type="button" onClick={scrollToTop} aria-label="Вернуться наверх"><span aria-hidden="true">↑</span><b>Наверх</b></button>}
 
       <div className={`toast${toast ? " is-visible" : ""}`} role="status" aria-live="polite" hidden={!toast}><strong>Почти готово!</strong><span>Добавьте ссылку для {toast === "telegram" ? "Telegram" : "MAX"} в файле App.jsx.</span></div>
     </div>

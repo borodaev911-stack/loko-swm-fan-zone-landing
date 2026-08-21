@@ -48,6 +48,24 @@ document.querySelectorAll("[data-score]").forEach((button) => {
 
 const hero = document.querySelector(".hero");
 const centerpiece = document.querySelector(".hero__centerpiece");
+const backToTop = document.querySelector("[data-back-to-top]");
+
+if (backToTop) {
+  const updateBackToTopVisibility = () => {
+    const heroHeight = hero?.offsetHeight ?? window.innerHeight;
+    backToTop.classList.toggle("is-visible", window.scrollY >= heroHeight);
+  };
+
+  updateBackToTopVisibility();
+  window.addEventListener("scroll", updateBackToTopVisibility, { passive: true });
+  window.addEventListener("resize", updateBackToTopVisibility);
+  backToTop.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    });
+  });
+}
 
 if (hero && centerpiece && window.matchMedia("(pointer: fine)").matches) {
   hero.addEventListener("pointermove", (event) => {
