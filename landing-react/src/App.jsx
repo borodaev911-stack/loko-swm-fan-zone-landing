@@ -325,6 +325,7 @@ export default function App() {
           <div className="steps">{steps.map(([number, icon, title, copy]) => (
             <article className="step reveal" key={number}><span className="step__number">{number}</span><div className={`step__icon pop-icon pop-icon--${icon}`} aria-hidden="true" /><h3>{title}</h3><p>{copy}</p></article>
           ))}</div>
+          <button className="back-to-top back-to-top--inline" type="button" onClick={scrollToTop} aria-label="Вернуться наверх"><span aria-hidden="true">↑</span><b>Наверх</b></button>
         </div></section>
 
         <section className="section section--contests" id="contests"><div className="section__inner">
@@ -385,7 +386,7 @@ export default function App() {
         <section className="final-cta"><div className="final-cta__noise" aria-hidden="true" /><div className="final-cta__content reveal"><h2>Ваш путь к призам<br />начинается здесь.</h2><div className="final-cta__buttons"><ChannelButton channel="telegram" compact onOpen={openChannel} /><ChannelButton channel="max" compact onOpen={openChannel} /></div></div></section>
       </main>
 
-      <footer><div className="footer-brand"><img src="/cobrand-optimized.jpg" alt="ФК Локомотив × SWM" /></div><p>Болейте вместе с «Локомотивом»</p><div className="footer-links"><a href="/privacy-policy.html">Политика конфиденциальности</a><a href="/contest-rules.html">Правила проведения конкурса</a></div></footer>
+      <footer><div className="footer-brand"><img src="/cobrand-optimized.jpg" alt="ФК Локомотив × SWM" /></div><p>Болейте вместе с «Локомотивом»</p><div className="footer-links"><a href="/privacy-policy.html">Политика конфиденциальности</a><a href="/privacy-policy.html">Политика обработки персональных данных</a><a href="/contest-rules.html">Правила проведения конкурса</a></div></footer>
 
       {backToTopVisible && <button className="back-to-top is-visible" type="button" onClick={scrollToTop} aria-label="Вернуться наверх"><span aria-hidden="true">↑</span><b>Наверх</b></button>}
 
