@@ -1,14 +1,12 @@
 from pathlib import Path
 
 import qrcode
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw
 
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "outputs" / "svoimashiny-loko-swm-qr.png"
 COBRAND = ROOT / "landing" / "assets" / "cobrand-optimized.jpg"
-RUSSO = ROOT / "landing" / "assets" / "fonts" / "russo-one.ttf"
-MANROPE = ROOT / "landing" / "assets" / "fonts" / "manrope-800.ttf"
 
 SIZE = 2048
 RED = "#EC1C2B"
@@ -19,13 +17,14 @@ CREAM = "#F5F0DF"
 INK = "#101817"
 
 
-def font(path: Path, size: int) -> ImageFont.FreeTypeFont:
-    return ImageFont.truetype(path, size=size)
-
-
-def center_text(draw: ImageDraw.ImageDraw, xy: tuple[int, int], text: str, text_font, fill, **kwargs) -> None:
-    box = draw.textbbox((0, 0), text, font=text_font, **kwargs)
-    draw.text((xy[0] - (box[2] - box[0]) / 2, xy[1]), text, font=text_font, fill=fill, **kwargs)
+def make_white_lockup() -> Image.Image:
+    """Extract the white Lokomotiv × SWM lockup without its dark photo backdrop."""
+    source = Image.open(COBRAND).convert("RGB").crop((30, 145, 290, 248))
+    luminance = source.convert("L")
+    alpha = luminance.point(lambda value: 0 if value < 165 else min(255, (value - 165) * 5))
+    lockup = Image.new("RGBA", source.size, "white")
+    lockup.putalpha(alpha)
+    return lockup
 
 
 def make_qr() -> Image.Image:
@@ -56,13 +55,10 @@ def main() -> None:
         for y in range(125, 1800, 28):
             draw.ellipse((x, y, x + 5, y + 5), fill="#D7D1C3")
 
-    # Top co-brand header.
+    # Enlarged white co-brand lockup, extracted without the photo background.
     draw.rounded_rectangle((190, 162, 1746, 346), radius=24, fill=DEEP_GREEN)
-    cobrand = Image.open(COBRAND).convert("RGB").resize((148, 148), Image.Resampling.LANCZOS)
-    image.paste(cobrand, (208, 180))
-    headline_font = font(RUSSO, 54)
-    center_text(draw, (1010, 201), "СКАНИРУЙ И ПЕРЕХОДИ", headline_font, "white")
-    center_text(draw, (1010, 267), "НА САЙТ СВОИ МАШИНЫ", font(MANROPE, 25), LIME)
+    lockup = make_white_lockup().resize((520, 194), Image.Resampling.LANCZOS)
+    image.paste(lockup, ((SIZE - lockup.width) // 2, 157), lockup)
 
     # QR placement is all-white including its four-module quiet zone.
     code = make_qr()
@@ -70,12 +66,6 @@ def main() -> None:
     qr_y = 408
     draw.rounded_rectangle((qr_x - 18, qr_y - 18, qr_x + code.width + 18, qr_y + code.height + 18), radius=16, fill="white")
     image.paste(code, (qr_x, qr_y))
-
-    # Pop-art footer; these details do not overlap the scanning field.
-    draw.rectangle((296, 1708, 644, 1725), fill=LIME)
-    domain_font = font(RUSSO, 74)
-    center_text(draw, (984, 1739), "svoimashiny.ru", domain_font, INK)
-    center_text(draw, (984, 1802), "НОВЫЕ АВТОМОБИЛИ ДЛЯ СВОИХ", font(MANROPE, 24), GREEN)
 
     # Corner stickers echo the landing-page comic accents, without affecting QR readability.
     draw.polygon([(148, 392), (174, 418), (211, 405), (202, 442), (236, 468), (195, 476), (181, 516), (165, 480), (128, 488), (143, 456), (110, 438), (145, 430)], fill=LIME)
