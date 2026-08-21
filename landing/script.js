@@ -52,8 +52,11 @@ const backToTop = document.querySelector("[data-back-to-top]");
 
 if (backToTop) {
   const updateBackToTopVisibility = () => {
-    const heroHeight = hero?.offsetHeight ?? window.innerHeight;
-    backToTop.classList.toggle("is-visible", window.scrollY >= heroHeight);
+    const secondScreen = document.querySelector("#how");
+    const threshold = secondScreen
+      ? Math.max(0, secondScreen.offsetTop + secondScreen.offsetHeight - window.innerHeight)
+      : window.innerHeight;
+    backToTop.classList.toggle("is-visible", window.scrollY >= threshold);
   };
 
   updateBackToTopVisibility();

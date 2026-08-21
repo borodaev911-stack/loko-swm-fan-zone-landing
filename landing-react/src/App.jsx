@@ -99,8 +99,11 @@ export default function App() {
 
   useEffect(() => {
     const updateVisibility = () => {
-      const heroHeight = document.querySelector(".hero")?.offsetHeight ?? window.innerHeight;
-      setBackToTopVisible(window.scrollY >= heroHeight);
+      const secondScreen = document.querySelector("#how");
+      const threshold = secondScreen
+        ? Math.max(0, secondScreen.offsetTop + secondScreen.offsetHeight - window.innerHeight)
+        : window.innerHeight;
+      setBackToTopVisible(window.scrollY >= threshold);
     };
 
     updateVisibility();
