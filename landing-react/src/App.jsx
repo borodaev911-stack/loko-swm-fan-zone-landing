@@ -100,9 +100,7 @@ export default function App() {
   useEffect(() => {
     const updateVisibility = () => {
       const secondScreen = document.querySelector("#how");
-      const threshold = secondScreen
-        ? Math.max(0, secondScreen.offsetTop + secondScreen.offsetHeight - window.innerHeight)
-        : window.innerHeight;
+      const threshold = secondScreen?.offsetTop ?? window.innerHeight;
       setBackToTopVisible(window.scrollY >= threshold);
     };
 
