@@ -436,7 +436,6 @@ export default function App() {
           <div className="steps">{steps.map(([number, icon, title, copy]) => (
             <article className="step reveal" key={number}><span className="step__number">{number}</span><div className={`step__icon pop-icon pop-icon--${icon}`} aria-hidden="true" /><h3>{title}</h3><p>{copy}</p></article>
           ))}</div>
-          <button className="back-to-top back-to-top--inline" type="button" onClick={scrollToTop} aria-label="Вернуться наверх"><span aria-hidden="true">↑</span><b>Наверх</b></button>
         </div></section>
 
         <section className="section section--contests" id="contests"><div className="section__inner">
