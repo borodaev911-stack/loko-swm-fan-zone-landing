@@ -697,9 +697,9 @@ footer a { color: #fff; font-weight: 800; text-decoration: none; }
   .legend-copy p { margin-top: 21px; font-size: 20px; }
   .legend-visual { min-height: 118vw; margin-inline: -8px; }
   .legend-portrait { inset: -2% -10% -12%; }
-  .legend-visual__burst { top: 12%; right: -12%; width: 92%; }
-  .legend-visual__halo { right: 4%; bottom: 9%; width: 78%; box-shadow: 8px 9px 0 var(--red); }
-  .section--legend::after { top: 32%; right: -250px; width: 470px; height: 470px; opacity: .42; }
+  .legend-visual__burst { display: none; }
+  .legend-visual__halo { display: none; }
+  .section--legend::after { display: none; }
   .score-copy h2 { max-width: 100%; font-size: clamp(30px, 8.7vw, 38px); line-height: .98; }
   .score-copy > p:not(.eyebrow) { font-size: 15px; }
   .sticker-inline { margin-bottom: 16px; padding: 6px 9px; font-size: 11px; }
