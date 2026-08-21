@@ -580,7 +580,7 @@ footer a { color: #fff; font-weight: 800; text-decoration: none; }
   position: fixed;
   z-index: 90;
   right: max(22px, env(safe-area-inset-right));
-  bottom: max(22px, env(safe-area-inset-bottom));
+  bottom: max(42px, env(safe-area-inset-bottom));
   display: flex;
   min-width: 106px;
   min-height: 56px;
@@ -737,7 +737,7 @@ footer a { color: #fff; font-weight: 800; text-decoration: none; }
   .score-cta-buttons { gap: 10px; }
   .footer-links { justify-content: flex-start; gap: 10px 16px; }
   footer { align-items: flex-start; flex-direction: column; }
-  .back-to-top { right: max(14px, env(safe-area-inset-right)); bottom: max(14px, env(safe-area-inset-bottom)); min-width: 54px; width: 54px; min-height: 54px; height: 54px; justify-content: center; padding: 5px; }
+  .back-to-top { right: max(14px, env(safe-area-inset-right)); bottom: max(50px, env(safe-area-inset-bottom)); min-width: 54px; width: 54px; min-height: 54px; height: 54px; justify-content: center; padding: 5px; }
   .back-to-top b { display: none; }
   .back-to-top span { width: 34px; height: 34px; }
 }
