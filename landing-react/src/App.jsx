@@ -414,7 +414,9 @@ export default function App() {
       <header className="hero" id="top" onPointerMove={moveCenterpiece} onPointerLeave={() => { if (centerpiece.current) centerpiece.current.style.transform = "translate3d(0, 0, 0)"; }}>
         <div className="hero__shade" aria-hidden="true" />
         <div className="hero__halftone" aria-hidden="true" />
-        <div className="brand-lockup"><img className="brand-lockup__cobrand" src="/cobrand-loko-swm-v2.png" alt="ФК Локомотив × SWM" /></div>
+        <div className="brand-lockup">
+          <img className="brand-lockup__cobrand" src="/cobrand-loko-swm-transparent-v1.png" alt="ФК Локомотив × SWM" />
+        </div>
         <div className="matchday-label">Фан-зона / Матчдей</div>
 
         <div className="hero__heading">
@@ -550,7 +552,7 @@ export default function App() {
         </section>
       </main>
 
-      <footer><div className="footer-brand"><img src="/cobrand-optimized.jpg" alt="ФК Локомотив × SWM" /></div><p>Болейте вместе с «Локомотивом»</p><div className="footer-links"><button className="footer-policy-link" type="button" ref={privacyTrigger} onClick={() => setPrivacyOpen(true)}>Политика конфиденциальности</button><a href="/privacy-policy.html">Политика обработки персональных данных</a><a href="/contest-rules.html">Правила проведения конкурса</a></div></footer>
+      <footer><div className="footer-brand"><img src="/cobrand-loko-swm-transparent-v1.png" alt="ФК Локомотив × SWM" /></div><p>Болейте вместе с «Локомотивом»</p><div className="footer-links"><button className="footer-policy-link" type="button" ref={privacyTrigger} onClick={() => setPrivacyOpen(true)}>Политика конфиденциальности</button><a href="/privacy-policy.html">Политика обработки персональных данных</a><a href="/contest-rules.html">Правила проведения конкурса</a></div></footer>
 
       {backToTopVisible && <button className="back-to-top is-visible" type="button" onClick={scrollToTop} aria-label="Вернуться наверх"><span aria-hidden="true">↑</span><b>Наверх</b></button>}
 
