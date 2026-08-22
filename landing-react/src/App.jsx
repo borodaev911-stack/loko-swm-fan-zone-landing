@@ -414,7 +414,7 @@ export default function App() {
       <header className="hero" id="top" onPointerMove={moveCenterpiece} onPointerLeave={() => { if (centerpiece.current) centerpiece.current.style.transform = "translate3d(0, 0, 0)"; }}>
         <div className="hero__shade" aria-hidden="true" />
         <div className="hero__halftone" aria-hidden="true" />
-        <div className="brand-lockup"><img className="brand-lockup__cobrand" src="/cobrand-optimized.jpg" alt="ФК Локомотив × SWM" /></div>
+        <div className="brand-lockup"><img className="brand-lockup__cobrand" src="/cobrand-loko-swm-v2.png" alt="ФК Локомотив × SWM" /></div>
         <div className="matchday-label">Фан-зона / Матчдей</div>
 
         <div className="hero__heading">
