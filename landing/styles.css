@@ -234,12 +234,25 @@ img { display: block; max-width: 100%; }
 .channel--max .channel__icon-wrap { transform: rotate(-4deg); }
 .channel__icon-wrap img { width: 100%; height: 100%; object-fit: cover; }
 .channel--max .channel__icon-wrap img { transform: scale(1.17); }
+.channel__bot-hint { position: absolute; z-index: 1; top: 18px; left: 18px; max-width: 135px; padding: 5px 7px; color: var(--ink); background: var(--lime); border: 2px solid var(--ink); box-shadow: 3px 3px 0 var(--red); font-size: 10px; font-weight: 800; line-height: 1.15; text-transform: uppercase; transform: rotate(2deg); }
 
 .channel__copy { position: absolute; inset: auto 22px 22px; text-align: left; }
 .channel__overline { display: block; margin-bottom: 1px; font-size: 11px; text-transform: uppercase; opacity: .78; }
 .channel strong { display: block; font-family: "Russo One", sans-serif; font-size: 30px; line-height: 1; }
 .channel__action { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; padding-top: 11px; border-top: 1px solid rgba(255,255,255,.35); font-size: 13px; font-weight: 800; }
 .channel__action span { display: grid; place-items: center; width: 27px; height: 27px; color: var(--ink); background: #fff; border-radius: 50%; }
+.consent { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; color: rgba(255,255,255,.74); font-size: 11px; line-height: 1.4; text-align: center; }
+.hero__consent { position: absolute; z-index: 2; bottom: -26px; left: 50%; width: min(940px, calc(100% - 40px)); margin: 0; transform: translateX(-50%); }
+.score__consent { justify-content: flex-start; margin-top: 12px; text-align: left; }
+.consent__control { display: inline-flex; align-items: center; gap: 7px; cursor: pointer; white-space: nowrap; }
+.consent__control input { flex: 0 0 auto; width: 16px; height: 16px; margin: 0; accent-color: var(--lime); cursor: pointer; }
+.consent a { color: #fff; font-weight: 800; text-decoration: underline; text-underline-offset: 3px; }
+.consent__error { flex-basis: 100%; margin-top: 3px; color: var(--lime); font-weight: 800; }
+.consent.is-error input { animation: consent-checkbox-pulse .36s ease-in-out 4; }
+
+@keyframes consent-checkbox-pulse {
+  50% { transform: scale(1.35); }
+}
 
 .hero__centerpiece { position: relative; height: 430px; min-width: 0; display: flex; align-items: center; justify-content: flex-end; flex-direction: column; }
 .comic-title { position: absolute; z-index: 5; top: 10px; left: 50%; width: max-content; transform: translateX(-50%) rotate(-2deg); text-align: center; text-transform: uppercase; filter: drop-shadow(0 9px 4px rgba(0,0,0,.26)); }
@@ -271,7 +284,11 @@ img { display: block; max-width: 100%; }
 .registration-prompt strong { position: relative; z-index: 1; display: block; font-family: "Russo One", sans-serif; font-size: clamp(30px, 3vw, 45px); line-height: .94; }
 .registration-prompt p { position: relative; z-index: 1; margin: 16px 0 0; font-size: 13px; font-weight: 800; line-height: 1.3; }
 .registration-prompt p b { color: var(--red); }
-.registration-prompt__arrow { position: absolute; z-index: 2; left: 61%; bottom: -28px; width: 132px; height: auto; filter: drop-shadow(5px 7px 0 rgba(0,0,0,.25)); transform: translateX(-50%) rotate(180deg); pointer-events: none; }
+.registration-prompt__arrow { display: none; position: absolute; z-index: 2; left: 61%; bottom: -28px; width: 132px; height: auto; filter: drop-shadow(5px 7px 0 rgba(0,0,0,.25)); transform: translateX(-50%) rotate(180deg); pointer-events: none; }
+.registration-prompt__arrow--telegram,
+.registration-prompt__arrow--max { display: block; top: 50%; bottom: auto; width: auto; height: 230px; transform-origin: center; }
+.registration-prompt__arrow--telegram { left: -126px; transform: translate(-50%, -50%) rotate(-90deg); }
+.registration-prompt__arrow--max { left: auto; top: 34%; right: -126px; transform: translate(50%, -50%) scaleX(-1) rotate(-90deg); }
 @keyframes registrationPromptIn { from { opacity: 0; transform: translateY(24px) rotate(-5deg) scale(.92); } to { opacity: 1; transform: rotate(-2deg); } }
 
 .sticker { position: absolute; z-index: 4; display: grid; place-items: center; width: 104px; height: 74px; color: var(--ink); background: var(--lime); clip-path: polygon(50% 0,61% 17%,80% 8%,82% 29%,100% 35%,86% 51%,99% 67%,78% 70%,73% 92%,55% 80%,39% 100%,31% 80%,9% 88%,14% 65%,0 54%,18% 42%,5% 23%,29% 25%); font-family: "Russo One", sans-serif; font-size: 22px; transform: rotate(-11deg); filter: drop-shadow(4px 7px 0 rgba(0,0,0,.35)); }
@@ -542,10 +559,10 @@ img { display: block; max-width: 100%; }
 .section--shop { background: #f0eddf; }
 .merch-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
 .merch-card { display: flex; min-height: 390px; flex-direction: column; background: #fff; border: 1px solid rgba(16,24,23,.15); overflow: hidden; }
-.merch-card--wide { grid-column: span 2; display: grid; grid-template-columns: 1.1fr .9fr; }
+.merch-card--wide { grid-column: span 2; display: flex; flex-direction: column; }
 .merch-card--bonus { color: #fff; background: var(--green); }
 .merch-card__image { min-height: 235px; display: grid; place-items: center; overflow: hidden; background: #e8e5d9; }
-.merch-card--wide .merch-card__image { height: 100%; }
+.merch-card--wide .merch-card__image { min-height: clamp(330px, 31vw, 480px); height: clamp(330px, 31vw, 480px); }
 .merch-card--bonus .merch-card__image { background: var(--lime); }
 .merch-card__image img { width: 100%; height: 100%; max-height: 285px; object-fit: contain; transition: transform .18s ease; }
 .merch-card:hover .merch-card__image img { transform: scale(1.05) rotate(-1deg); }
@@ -555,6 +572,7 @@ img { display: block; max-width: 100%; }
 .merch-card h3 { margin: 5px 0 6px; font-family: "Russo One", sans-serif; font-size: 21px; line-height: 1.05; text-transform: uppercase; }
 .merch-card p { margin: 0; font-size: 13px; opacity: .7; }
 .merch-card--bonus p { color: #fff; opacity: .9; }
+@media (min-width: 821px) { .merch-card--wide p { display: none; } }
 
 .section--rules { color: #fff; background: var(--green-deep); }
 .rules-layout { display: grid; grid-template-columns: .78fr 1.22fr; gap: clamp(55px, 8vw, 115px); }
@@ -655,10 +673,18 @@ footer a { color: #fff; font-weight: 800; text-decoration: none; }
   .hero__registration { width: min(560px, calc(100% - 40px)); min-height: 0; margin-top: 32px; display: flex; flex-direction: column; }
   .hero__centerpiece { order: -1; width: 100%; height: min(310px, 78vw); margin-bottom: 4px; }
   .hero__centerpiece--registration { min-height: 280px; }
+  .hero__consent { position: static; width: 100%; margin: 4px 0 0; font-size: 10px; transform: none; }
+  .consent__control { align-items: flex-start; white-space: normal; }
+  .registration-prompt__arrow { display: block; }
+  .registration-prompt__arrow--telegram,
+  .registration-prompt__arrow--max { display: none; }
   .channel { width: 100%; min-height: 90px; padding: 14px; transform: none; border-radius: 20px; }
   .channel:hover, .channel--max:hover { transform: translateY(-3px); }
   .channel__icon-wrap { width: 62px; height: 62px; top: 13px; right: 14px; border-radius: 17px; }
   .channel__copy { inset: 12px 89px auto 18px; }
+  .channel--max { min-height: 118px; }
+  .channel--max .channel__bot-hint { top: 10px; left: 18px; max-width: 165px; font-size: 8px; }
+  .channel--max .channel__copy { inset: 50px 89px auto 18px; }
   .channel__overline { font-size: 9px; }
   .channel strong { font-size: 23px; }
   .channel__action { margin-top: 5px; padding-top: 5px; font-size: 11px; }
@@ -702,6 +728,9 @@ footer a { color: #fff; font-weight: 800; text-decoration: none; }
   .prize-collage__scarf { right: 0; width: 42%; }
   .prize-caption { font-size: 8px; }
   .registration-prompt { min-height: 240px; padding: 27px 28px 24px; box-shadow: 7px 8px 0 var(--red); }
+  .registration-prompt__arrow { display: block; }
+  .registration-prompt__arrow--telegram,
+  .registration-prompt__arrow--max { display: none; }
   .registration-prompt__eyebrow { margin-bottom: 9px; font-size: 8px; }
   .registration-prompt strong { font-size: clamp(27px, 8.4vw, 35px); }
   .registration-prompt p { margin-top: 12px; font-size: 11px; }

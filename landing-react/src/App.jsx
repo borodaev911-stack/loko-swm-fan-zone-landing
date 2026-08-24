@@ -4,10 +4,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Вставьте реальные ссылки на регистрацию перед публикацией страницы.
 const CHANNEL_LINKS = {
-  telegram: "",
-  max: "",
+  telegram: "https://t.me/PRIEZDAUTO_BOT",
+  max: "https://max.ru/id7720931920_2_bot",
 };
 
 const steps = [
@@ -75,6 +74,7 @@ function ChannelButton({ channel, compact = false, hero = false, onOpen }) {
     <button className={`channel channel--${channel}`} type="button" data-channel={channel} aria-label={`Зарегистрироваться в ${label}`} onClick={() => onOpen(channel)}>
       <span className="channel__shine" aria-hidden="true" />
       <span className="channel__icon-wrap"><img src={`/${icon}`} alt="" /></span>
+      {hero && channel === "max" && <span className="channel__bot-hint">Напиши любое сообщение для запуска бота!</span>}
       <span className="channel__copy">
         <span className="channel__overline">{hero ? "Участвовать в" : "Зарегистрироваться в"}</span>
         <strong>{label}</strong>
@@ -88,7 +88,7 @@ function CtaButton({ channel, onOpen }) {
   const label = channel === "telegram" ? "Telegram" : "MAX";
   const icon = channel === "telegram" ? "telegram-optimized.jpg" : "max-optimized.jpg";
   return (
-    <button className={`cta-button cta-button--${channel}`} type="button" data-channel={channel} onClick={() => onOpen(channel)}>
+    <button className={`cta-button cta-button--${channel}`} type="button" data-channel={channel} onClick={() => onOpen(channel, "score")}>
       <img src={`/${icon}`} alt="" />
       <span className="cta-button__label"><small>Сделать прогноз</small><strong>{label}</strong></span>
       <span className="cta-button__arrow" aria-hidden="true">↗</span>
@@ -191,9 +191,12 @@ export default function App() {
   const [openFaqId, setOpenFaqId] = useState("join");
   const [backToTopVisible, setBackToTopVisible] = useState(false);
   const [scoreRegistrationOpen, setScoreRegistrationOpen] = useState(false);
+  const [consentAccepted, setConsentAccepted] = useState(true);
+  const [consentErrorTarget, setConsentErrorTarget] = useState(null);
   const page = useRef(null);
   const toastTimer = useRef();
   const scoreRegistrationTimer = useRef();
+  const consentErrorTimer = useRef();
   const centerpiece = useRef(null);
   const registration = useRef(null);
   const privacyTrigger = useRef(null);
@@ -201,6 +204,7 @@ export default function App() {
   useEffect(() => () => {
     window.clearTimeout(toastTimer.current);
     window.clearTimeout(scoreRegistrationTimer.current);
+    window.clearTimeout(consentErrorTimer.current);
   }, []);
 
   useEffect(() => {
@@ -366,7 +370,14 @@ export default function App() {
     };
   }, []);
 
-  function openChannel(channel) {
+  function openChannel(channel, consentTarget = "hero") {
+    if (!consentAccepted) {
+      window.clearTimeout(consentErrorTimer.current);
+      setConsentErrorTarget(consentTarget);
+      consentErrorTimer.current = window.setTimeout(() => setConsentErrorTarget(null), 2200);
+      return;
+    }
+
     const url = CHANNEL_LINKS[channel];
     if (url) {
       window.location.href = url;
@@ -433,6 +444,8 @@ export default function App() {
                 <span className="registration-prompt__eyebrow">Для прогноза</span>
                 <strong>Чтобы сделать<br />ставку</strong>
                 <p>зарегистрируйтесь<br /><b>в Telegram или MAX</b></p>
+                <img className="registration-prompt__arrow registration-prompt__arrow--telegram" src="/registration-pop-art-arrow-v1.png" alt="" aria-hidden="true" />
+                <img className="registration-prompt__arrow registration-prompt__arrow--max" src="/registration-pop-art-arrow-v1.png" alt="" aria-hidden="true" />
                 <img className="registration-prompt__arrow" src="/registration-pop-art-arrow-v1.png" alt="" aria-hidden="true" />
               </div>
             ) : <>
@@ -448,6 +461,24 @@ export default function App() {
             </>}
           </div>
           <ChannelButton channel="max" hero onOpen={openChannel} />
+          <div className={`consent hero__consent${consentErrorTarget === "hero" ? " is-error" : ""}`}>
+            <label className="consent__control">
+              <input
+                type="checkbox"
+                checked={consentAccepted}
+                aria-invalid={consentErrorTarget === "hero"}
+                onChange={(event) => {
+                  setConsentAccepted(event.target.checked);
+                  if (event.target.checked) {
+                    window.clearTimeout(consentErrorTimer.current);
+                    setConsentErrorTarget(null);
+                  }
+                }}
+              />
+              <span>Продолжая регистрацию, вы принимаете <a href="/privacy-policy.html">Политику конфиденциальности</a> и <a href="/privacy-policy.html">Политику обработки персональных данных</a>.</span>
+            </label>
+            {consentErrorTarget === "hero" && <span className="consent__error" role="status">Поставьте галочку, чтобы перейти к боту.</span>}
+          </div>
         </div>
         <span className="sticker sticker--wow" aria-hidden="true">WOW!</span>
         <span className="sticker sticker--goal" aria-hidden="true">GO!</span>
@@ -493,7 +524,7 @@ export default function App() {
         <section className="section section--score" id="score">
           <div className="score-burst" aria-hidden="true" />
           <div className="section__inner score-layout">
-            <div className="score-copy reveal"><span className="sticker-inline">Грандиозный розыгрыш!</span><h2>Угадайте точный счёт — участвуйте в розыгрыше.</h2><p>Сделайте прогноз в боте и получите шанс выиграть главные призы.</p><div className="score-cta-buttons"><CtaButton channel="telegram" onOpen={openChannel} /><CtaButton channel="max" onOpen={openChannel} /></div></div>
+            <div className="score-copy reveal"><span className="sticker-inline">Грандиозный розыгрыш!</span><h2>Угадайте точный счёт — участвуйте в розыгрыше.</h2><p>Сделайте прогноз в боте и получите шанс выиграть главные призы.</p><div className="score-cta-buttons"><CtaButton channel="telegram" onOpen={openChannel} /><CtaButton channel="max" onOpen={openChannel} /></div><div className={`consent score__consent${consentErrorTarget === "score" ? " is-error" : ""}`}><label className="consent__control"><input type="checkbox" checked={consentAccepted} aria-invalid={consentErrorTarget === "score"} onChange={(event) => { setConsentAccepted(event.target.checked); if (event.target.checked) { window.clearTimeout(consentErrorTimer.current); setConsentErrorTarget(null); } }} /><span>Продолжая регистрацию, вы принимаете <a href="/privacy-policy.html">Политику конфиденциальности</a> и <a href="/privacy-policy.html">Политику обработки персональных данных</a>.</span></label>{consentErrorTarget === "score" && <span className="consent__error" role="status">Поставьте галочку, чтобы перейти к боту.</span>}</div></div>
             <div className="scoreboard reveal" role="group" aria-label="Пример прогноза на точный счёт">
               <div className="scoreboard__team"><img src="/fclm-logo-small.png" alt="Локомотив" /><span>Локомотив</span></div>
               <div className="scoreboard__digits"><span>{scores.home}</span><i>:</i><span>{scores.away}</span></div>
