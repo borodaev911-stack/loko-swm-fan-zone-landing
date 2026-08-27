@@ -9,6 +9,8 @@ const CHANNEL_LINKS = {
   max: "https://max.ru/id7720931920_2_bot",
 };
 
+const assetUrl = (fileName) => `${import.meta.env.BASE_URL}${fileName}`;
+
 const steps = [
   ["01", "subscribe", "Откройте бота", "Выберите Telegram или MAX и начните регистрацию."],
   ["02", "qr", "Получите QR-код", "Бот выдаст персональный QR-код участника."],
@@ -32,7 +34,7 @@ const prizes = [
 
 const merchandise = [
   ["wide", "scarf-optimized.png", "Красно-зелёный шарф Локомотива", "Фанатская атрибутика", "Шарф", "Чтобы цвета клуба всегда были рядом."],
-  ["", "opener.png", "Красный брелок-открывашка", "Полезный сувенир", "Брелок-открывашка", ""],
+  ["", "license-plate-frame-fclm.png", "Авторамка пластиковая с эмблемами Локомотива", "Автосувенир", "Авторамка пластиковая с эмблемами", ""],
   ["", "magazine.jpg", "Предматчевый журнал Локомотива", "С автографами", "Журнал «Наш Локо»", ""],
   ["", "fan-hat.png", "Шапка болельщика в цветах Локомотива", "Для трибун", "Шапка болельщика", ""],
   ["bonus", "air-freshener.png", "Ароматизатор в форме футболки Локомотива", "Бонус", "Ароматизатор", "Подарок-флаер для тех, кто не успел поучаствовать."],
@@ -65,7 +67,7 @@ function ChannelButton({ channel, compact = false, hero = false, onOpen }) {
   if (compact) {
     return (
       <button type="button" className={`mini-channel mini-channel--${channel}`} data-channel={channel} onClick={() => onOpen(channel)}>
-        <img src={`/${icon}`} alt="" />Участвовать через {label} <span aria-hidden="true">↗</span>
+        <img src={assetUrl(icon)} alt="" />Участвовать через {label} <span aria-hidden="true">↗</span>
       </button>
     );
   }
@@ -73,7 +75,7 @@ function ChannelButton({ channel, compact = false, hero = false, onOpen }) {
   return (
     <button className={`channel channel--${channel}`} type="button" data-channel={channel} aria-label={`Зарегистрироваться в ${label}`} onClick={() => onOpen(channel)}>
       <span className="channel__shine" aria-hidden="true" />
-      <span className="channel__icon-wrap"><img src={`/${icon}`} alt="" /></span>
+      <span className="channel__icon-wrap"><img src={assetUrl(icon)} alt="" /></span>
       {hero && channel === "max" && <span className="channel__bot-hint">Напиши любое сообщение для запуска бота!</span>}
       <span className="channel__copy">
         <span className="channel__overline">{hero ? "Участвовать в" : "Зарегистрироваться в"}</span>
@@ -89,7 +91,7 @@ function CtaButton({ channel, onOpen }) {
   const icon = channel === "telegram" ? "telegram-optimized.jpg" : "max-optimized.jpg";
   return (
     <button className={`cta-button cta-button--${channel}`} type="button" data-channel={channel} onClick={() => onOpen(channel, "score")}>
-      <img src={`/${icon}`} alt="" />
+      <img src={assetUrl(icon)} alt="" />
       <span className="cta-button__label"><small>Сделать прогноз</small><strong>{label}</strong></span>
       <span className="cta-button__arrow" aria-hidden="true">↗</span>
     </button>
@@ -426,7 +428,7 @@ export default function App() {
         <div className="hero__shade" aria-hidden="true" />
         <div className="hero__halftone" aria-hidden="true" />
         <div className="brand-lockup">
-          <img className="brand-lockup__cobrand" src="/cobrand-loko-swm-transparent-v1.png" alt="ФК Локомотив × SWM" />
+          <img className="brand-lockup__cobrand" src={assetUrl("cobrand-loko-swm-transparent-v1.png")} alt="ФК Локомотив × SWM" />
         </div>
         <div className="matchday-label">Фан-зона / Матчдей</div>
 
@@ -444,18 +446,18 @@ export default function App() {
                 <span className="registration-prompt__eyebrow">Для прогноза</span>
                 <strong>Чтобы сделать<br />ставку</strong>
                 <p>зарегистрируйтесь<br /><b>в Telegram или MAX</b></p>
-                <img className="registration-prompt__arrow registration-prompt__arrow--telegram" src="/registration-pop-art-arrow-v1.png" alt="" aria-hidden="true" />
-                <img className="registration-prompt__arrow registration-prompt__arrow--max" src="/registration-pop-art-arrow-v1.png" alt="" aria-hidden="true" />
-                <img className="registration-prompt__arrow" src="/registration-pop-art-arrow-v1.png" alt="" aria-hidden="true" />
+                <img className="registration-prompt__arrow registration-prompt__arrow--telegram" src={assetUrl("registration-pop-art-arrow-v1.png")} alt="" aria-hidden="true" />
+                <img className="registration-prompt__arrow registration-prompt__arrow--max" src={assetUrl("registration-pop-art-arrow-v1.png")} alt="" aria-hidden="true" />
+                <img className="registration-prompt__arrow" src={assetUrl("registration-pop-art-arrow-v1.png")} alt="" aria-hidden="true" />
               </div>
             ) : <>
               <div className="comic-title"><span className="comic-title__top">Болей. Играй.</span><strong>Выигрывай!</strong></div>
               <div className="prize-collage" aria-hidden="true">
                 <div className="prize-collage__glow" />
-                <img className="prize-collage__ps5" src="/ps5-store77-large.jpg" alt="" />
-                <img className="prize-collage__ball" src="/ball-optimized.png" alt="" />
+                <img className="prize-collage__ps5" src={assetUrl("ps5-store77-large.jpg")} alt="" />
+                <img className="prize-collage__ball" src={assetUrl("ball-optimized.png")} alt="" />
                 <div className="race-ticket"><div className="race-ticket__copy"><strong>RDRC</strong><span>БИЛЕТЫ НА ДРЭГ-РЕЙСИНГ</span></div></div>
-                <img className="prize-collage__scarf" src="/scarf-optimized.png" alt="" />
+                <img className="prize-collage__scarf" src={assetUrl("scarf-optimized.png")} alt="" />
               </div>
               <div className="prize-caption"><span>Главные призы</span> PS5 / RDRC / мячи с автографами</div>
             </>}
@@ -475,7 +477,7 @@ export default function App() {
                   }
                 }}
               />
-              <span>Продолжая регистрацию, вы принимаете <a href="/privacy-policy.html">Политику конфиденциальности</a> и <a href="/privacy-policy.html">Политику обработки персональных данных</a>.</span>
+              <span>Продолжая регистрацию, вы принимаете <a href={assetUrl("privacy-policy.html")}>Политику конфиденциальности</a> и <a href={assetUrl("privacy-policy.html")}>Политику обработки персональных данных</a>.</span>
             </label>
             {consentErrorTarget === "hero" && <span className="consent__error" role="status">Поставьте галочку, чтобы перейти к боту.</span>}
           </div>
@@ -515,7 +517,7 @@ export default function App() {
               <span className="legend-visual__halo" aria-hidden="true" />
               <span className="legend-visual__net" aria-hidden="true" />
               <div className="legend-portrait">
-                <img src="/ruslan-nigmatullin-autograph-pop-art-cream.png" alt="Руслан Нигматуллин подписывает футбольный мяч" loading="lazy" decoding="async" />
+                <img src={assetUrl("ruslan-nigmatullin-autograph-pop-art-cream.png")} alt="Руслан Нигматуллин подписывает футбольный мяч" loading="lazy" decoding="async" />
               </div>
             </div>
           </div>
@@ -524,11 +526,11 @@ export default function App() {
         <section className="section section--score" id="score">
           <div className="score-burst" aria-hidden="true" />
           <div className="section__inner score-layout">
-            <div className="score-copy reveal"><span className="sticker-inline">Грандиозный розыгрыш!</span><h2>Угадайте точный счёт — участвуйте в розыгрыше.</h2><p>Сделайте прогноз в боте и получите шанс выиграть главные призы.</p><div className="score-cta-buttons"><CtaButton channel="telegram" onOpen={openChannel} /><CtaButton channel="max" onOpen={openChannel} /></div><div className={`consent score__consent${consentErrorTarget === "score" ? " is-error" : ""}`}><label className="consent__control"><input type="checkbox" checked={consentAccepted} aria-invalid={consentErrorTarget === "score"} onChange={(event) => { setConsentAccepted(event.target.checked); if (event.target.checked) { window.clearTimeout(consentErrorTimer.current); setConsentErrorTarget(null); } }} /><span>Продолжая регистрацию, вы принимаете <a href="/privacy-policy.html">Политику конфиденциальности</a> и <a href="/privacy-policy.html">Политику обработки персональных данных</a>.</span></label>{consentErrorTarget === "score" && <span className="consent__error" role="status">Поставьте галочку, чтобы перейти к боту.</span>}</div></div>
+            <div className="score-copy reveal"><span className="sticker-inline">Грандиозный розыгрыш!</span><h2>Угадайте точный счёт — участвуйте в розыгрыше.</h2><p>Сделайте прогноз в боте и получите шанс выиграть главные призы.</p><div className="score-cta-buttons"><CtaButton channel="telegram" onOpen={openChannel} /><CtaButton channel="max" onOpen={openChannel} /></div><div className={`consent score__consent${consentErrorTarget === "score" ? " is-error" : ""}`}><label className="consent__control"><input type="checkbox" checked={consentAccepted} aria-invalid={consentErrorTarget === "score"} onChange={(event) => { setConsentAccepted(event.target.checked); if (event.target.checked) { window.clearTimeout(consentErrorTimer.current); setConsentErrorTarget(null); } }} /><span>Продолжая регистрацию, вы принимаете <a href={assetUrl("privacy-policy.html")}>Политику конфиденциальности</a> и <a href={assetUrl("privacy-policy.html")}>Политику обработки персональных данных</a>.</span></label>{consentErrorTarget === "score" && <span className="consent__error" role="status">Поставьте галочку, чтобы перейти к боту.</span>}</div></div>
             <div className="scoreboard reveal" role="group" aria-label="Пример прогноза на точный счёт">
-              <div className="scoreboard__team"><img src="/fclm-logo-small.png" alt="Локомотив" /><span>Локомотив</span></div>
+              <div className="scoreboard__team"><img src={assetUrl("fclm-logo-small.png")} alt="Локомотив" /><span>Локомотив</span></div>
               <div className="scoreboard__digits"><span>{scores.home}</span><i>:</i><span>{scores.away}</span></div>
-              <div className="scoreboard__team scoreboard__team--opponent"><img src="/dynamo-moscow-logo.png" alt="Динамо Москва" /><span>Динамо Москва</span></div>
+              <div className="scoreboard__team scoreboard__team--opponent"><img src={assetUrl("dynamo-moscow-logo.png")} alt="Динамо Москва" /><span>Динамо Москва</span></div>
               <div className="scoreboard__footer"><div className="scoreboard__controls">
                 <div className="scoreboard__control-group"><button type="button" onClick={() => changeScore("home", -1)} aria-label="Уменьшить счёт Локомотива">−</button><span>Локомотив</span><button type="button" onClick={() => changeScore("home", 1)} aria-label="Увеличить счёт Локомотива">+</button></div>
                 <div className="scoreboard__control-group"><button type="button" onClick={() => changeScore("away", -1)} aria-label="Уменьшить счёт соперника">−</button><span>Соперник</span><button type="button" onClick={() => changeScore("away", 1)} aria-label="Увеличить счёт соперника">+</button></div>
@@ -543,7 +545,7 @@ export default function App() {
         <section className="section section--shop" id="shop"><div className="section__inner">
           <div className="section-heading reveal"><h2>Набрали баллы — выберите подарок.</h2><p>Участвуйте в конкурсах, показывайте QR-код и обменивайте баллы на фирменную атрибутику.</p></div>
           <div className="merch-grid">{merchandise.map(([variant, image, alt, label, title, copy]) => (
-            <article className={`merch-card${variant ? ` merch-card--${variant}` : ""} reveal`} key={title}><div className="merch-card__image"><img src={`/${image}`} alt={alt} /></div><div><span>{label}</span><h3>{title}</h3>{copy && <p>{copy}</p>}</div></article>
+            <article className={`merch-card${variant ? ` merch-card--${variant}` : ""} reveal`} key={title}><div className="merch-card__image"><img src={assetUrl(image)} alt={alt} /></div><div><span>{label}</span><h3>{title}</h3>{copy && <p>{copy}</p>}</div></article>
           ))}</div>
         </div></section>
 
@@ -583,7 +585,7 @@ export default function App() {
         </section>
       </main>
 
-      <footer><div className="footer-brand"><img src="/cobrand-loko-swm-transparent-v1.png" alt="ФК Локомотив × SWM" /></div><p>Болейте вместе с «Локомотивом»</p><div className="footer-links"><button className="footer-policy-link" type="button" ref={privacyTrigger} onClick={() => setPrivacyOpen(true)}>Политика конфиденциальности</button><a href="/privacy-policy.html">Политика обработки персональных данных</a><a href="/contest-rules.html">Правила проведения конкурса</a></div></footer>
+      <footer><div className="footer-brand"><img src={assetUrl("cobrand-loko-swm-transparent-v1.png")} alt="ФК Локомотив × SWM" /></div><p>Болейте вместе с «Локомотивом»</p><div className="footer-links"><button className="footer-policy-link" type="button" ref={privacyTrigger} onClick={() => setPrivacyOpen(true)}>Политика конфиденциальности</button><a href={assetUrl("privacy-policy.html")}>Политика обработки персональных данных</a><a href={assetUrl("contest-rules.html")}>Правила проведения конкурса</a></div></footer>
 
       {backToTopVisible && <button className="back-to-top is-visible" type="button" onClick={scrollToTop} aria-label="Вернуться наверх"><span aria-hidden="true">↑</span><b>Наверх</b></button>}
 
