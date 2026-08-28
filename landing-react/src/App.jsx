@@ -23,7 +23,6 @@ const contests = [
   ["03", "green", "slalom", "Змейка", "Проведите мяч между фишками на скорость.", "Техника"],
   ["04", "lime", "wheel", "Колесо фортуны", "Крутите колесо и узнайте, какой бонус выпадет вам.", "Удача"],
   ["05", "white", "juggle", "Чеканка", "Не дайте мячу коснуться земли как можно дольше.", "Контроль"],
-  ["06", "blue", "chant", "Составь кричалку", "Придумайте яркую кричалку и зарядите фан-зону.", "Креатив"],
 ];
 
 const prizes = [
@@ -52,7 +51,7 @@ const faqItems = [
   ["join", "Как принять участие?", "Выберите удобный бот — Telegram или MAX — и пройдите быструю регистрацию. После этого бот выдаст ваш персональный QR-код участника."],
   ["subscription", "Нужно подписываться и на Telegram, и на MAX?", "Нет. Для участия достаточно выбрать и подписаться на один из ресурсов — Telegram или MAX."],
   ["qr", "Зачем нужен QR-код и где его показывать?", "QR-код подтверждает ваше участие. Показывайте его перед каждой активностью в фан-зоне, чтобы получить баллы за конкурс."],
-  ["activities", "В каких активностях можно участвовать?", "Вас ждут шесть активностей: удар по воротам, футбольный квиз, змейка, колесо фортуны, чеканка и конкурс кричалок. Участвуйте в одной или проходите все."],
+  ["activities", "В каких активностях можно участвовать?", "Вас ждут пять активностей: удар по воротам, футбольный квиз, змейка, колесо фортуны и чеканка. Участвуйте в одной или проходите все."],
   ["points", "Как начисляются баллы и на что их можно обменять?", "Баллы начисляются за участие в активностях. Накопленные баллы можно обменять на фирменную атрибутику «Локомотива»."],
   ["prediction", "Как получить возможность сделать прогноз на матч?", "После регистрации в Telegram-боте вы сможете сделать прогноз на матч. Он даёт возможность участвовать в розыгрыше главного приза."],
   ["prizes", "Какие призы можно выиграть?", "Главные призы — PlayStation 5, билеты на RDRC и мячи с автографами. За баллы в активностях также можно выбрать фанатскую атрибутику."],
@@ -73,10 +72,11 @@ function ChannelButton({ channel, compact = false, hero = false, onOpen }) {
   }
 
   return (
-    <button className={`channel channel--${channel}`} type="button" data-channel={channel} aria-label={`Зарегистрироваться в ${label}`} onClick={() => onOpen(channel)}>
+    <button className={`channel channel--${channel}${hero ? " channel--reward" : ""}`} type="button" data-channel={channel} aria-label={`Зарегистрироваться в ${label}`} onClick={() => onOpen(channel)}>
       <span className="channel__shine" aria-hidden="true" />
       <span className="channel__icon-wrap"><img src={assetUrl(icon)} alt="" /></span>
       {hero && channel === "max" && <span className="channel__bot-hint">Напиши любое сообщение для запуска бота!</span>}
+      {hero && <span className="channel__bonus">+50 баллов</span>}
       <span className="channel__copy">
         <span className="channel__overline">{hero ? "Участвовать в" : "Зарегистрироваться в"}</span>
         <strong>{label}</strong>
@@ -283,12 +283,8 @@ export default function App() {
       const legend = root.querySelector(".section--legend");
       if (legend) {
         const legendCopy = legend.querySelector(".legend-copy");
-        const legendVisual = legend.querySelector(".legend-visual");
         const legendPortrait = legend.querySelector(".legend-portrait");
         const legendImage = legend.querySelector(".legend-portrait img");
-        const legendBurst = legend.querySelector(".legend-visual__burst");
-        const legendHalo = legend.querySelector(".legend-visual__halo");
-        const legendNet = legend.querySelector(".legend-visual__net");
 
         gsap.timeline({
           defaults: { ease: "power3.out" },
@@ -300,8 +296,6 @@ export default function App() {
         })
           .from(legendCopy.querySelectorAll("h2 span"), { autoAlpha: 0, x: -42, duration: 0.5, stagger: 0.12, clearProps: clearEntryProps })
           .from(legendCopy.querySelector("p"), { autoAlpha: 0, y: 18, duration: 0.42, clearProps: clearEntryProps }, "<0.16")
-          .from(legendHalo, { autoAlpha: 0, duration: 0.34, clearProps: "opacity,visibility" }, "<0.1")
-          .from(legendBurst, { autoAlpha: 0, duration: 0.32, clearProps: "opacity,visibility" }, "<")
           .from(legendImage, { autoAlpha: 0, y: 54, scale: 0.94, duration: 0.62, clearProps: clearEntryProps }, "<0.05");
 
         gsap.to(legendPortrait, {
@@ -315,40 +309,6 @@ export default function App() {
           },
         });
 
-        gsap.to(legendBurst, {
-          rotation: 24,
-          scale: 1.08,
-          ease: "none",
-          scrollTrigger: {
-            trigger: legend,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 0.8,
-          },
-        });
-
-        gsap.to(legendHalo, {
-          scale: 1.06,
-          ease: "none",
-          scrollTrigger: {
-            trigger: legend,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 0.8,
-          },
-        });
-
-        gsap.to(legendNet, {
-          xPercent: 9,
-          yPercent: -7,
-          ease: "none",
-          scrollTrigger: {
-            trigger: legend,
-            start: "top bottom",
-            end: "bottom top",
-            scrub: 0.8,
-          },
-        });
       }
 
       gsap.to(root.querySelector(".score-burst"), {
@@ -382,7 +342,7 @@ export default function App() {
 
     const url = CHANNEL_LINKS[channel];
     if (url) {
-      window.location.href = url;
+      window.open(url, "_blank", "noopener,noreferrer");
       return;
     }
     window.clearTimeout(toastTimer.current);
@@ -500,7 +460,7 @@ export default function App() {
         </div></section>
 
         <section className="section section--contests" id="contests"><div className="section__inner">
-          <div className="section-heading section-heading--light reveal"><h2>Шесть активностей — шесть способов набрать баллы.</h2><p>Проверьте меткость, технику, футбольные знания и удачу.</p></div>
+          <div className="section-heading section-heading--light reveal"><h2>Пять активностей — пять способов набрать баллы.</h2><p>Проверьте меткость, технику, футбольные знания и удачу.</p></div>
           <div className="contest-grid">{contests.map(([number, color, icon, title, copy, tag]) => (
             <article className={`contest-card contest-card--${color} reveal`} key={number}><span className="contest-card__index">{number}</span><span className={`contest-card__icon pop-icon pop-icon--${icon}`} aria-hidden="true" /><h3>{title}</h3><p>{copy}</p><span className="contest-card__tag">{tag}</span></article>
           ))}</div>
@@ -513,9 +473,6 @@ export default function App() {
               <p>Фото и автограф с легендарным вратарём «Локомотива».</p>
             </div>
             <div className="legend-visual">
-              <span className="legend-visual__burst" aria-hidden="true" />
-              <span className="legend-visual__halo" aria-hidden="true" />
-              <span className="legend-visual__net" aria-hidden="true" />
               <div className="legend-portrait">
                 <img src={assetUrl("ruslan-nigmatullin-autograph-pop-art-cream.png")} alt="Руслан Нигматуллин подписывает футбольный мяч" loading="lazy" decoding="async" />
               </div>
