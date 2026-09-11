@@ -5,9 +5,13 @@
 .rg-channel-hint{left:18px;right:auto;top:16px;max-width:126px;border:2px solid var(--rg-ink);font:800 10px/1.15 RGManrope,Arial,sans-serif}
 @media(max-width:760px){.rg-channel{padding-top:82px;min-height:210px}.rg-channel-hint{left:10px;top:12px;max-width:82px;font-size:8px;padding:4px}.rg-channel strong{font-size:28px}}
 /* Contest: complete artwork, with copy above the cars. */
-.rg-challenge{position:relative;display:grid;grid-template-columns:1fr;isolation:isolate;background:#020f1b;overflow:hidden}
-.rg-challenge-art{display:block;grid-area:1/1;width:100%;height:auto;min-height:0;background:none;align-self:end}
-.rg-challenge-copy{position:relative;grid-area:1/1;z-index:1;align-self:start;text-align:center;padding:clamp(28px,4vw,64px) 24px 28px;max-width:960px;width:100%;margin:0 auto;background:radial-gradient(ellipse,#020f1bf2 20%,#020f1b99 65%,transparent 75%)}
+.rg-challenge{position:relative;display:grid;grid-template-columns:1fr;min-height:760px;isolation:isolate;background:#020f1b url('/guest-duel.webp') center top/auto 380% no-repeat;overflow:hidden}
+.rg-challenge-art{display:block;grid-area:1/1;width:100%;height:auto;min-height:0;background:none;align-self:center}
+.rg-challenge-copy{position:relative;grid-area:1/1;z-index:1;align-self:start;text-align:center;padding:24px 24px 16px;max-width:960px;width:100%;margin:0 auto;background:radial-gradient(ellipse,#020f1bf2 20%,#020f1b99 65%,transparent 75%)}
+.rg-challenge-actions{position:relative;grid-area:1/1;z-index:1;align-self:end;text-align:center;padding:20px 20px 32px;background:#020f1baa}
+.rg-challenge-actions h3{font-size:clamp(23px,2.2vw,32px);text-wrap:balance}
+.rg-challenge-actions .rg-challenge-cta{margin-top:20px}
+.rg-challenge-actions .rg-rules-link{display:block;margin:18px auto 0;font-size:14px}
 .rg-challenge-copy h2{font-size:clamp(30px,4.2vw,64px);line-height:1.08;margin:12px 0 18px;text-wrap:balance}
 .rg-challenge-copy>p{max-width:700px;margin:0 auto 24px;font-size:clamp(15px,1.35vw,20px);line-height:1.55;text-wrap:pretty}
 .rg-challenge-cta{display:inline-flex;justify-content:center;align-items:center;gap:32px;width:auto;min-height:60px;padding:15px 32px;border-radius:999px;box-shadow:0 5px 0 #25badf;font-size:20px;text-decoration:none}
@@ -21,8 +25,10 @@
 .rg-model-card .rg-model-label strong{font-size:36px;line-height:1.2;margin:4px 0}
 .rg-model-card .rg-model-label b{font-size:12px;margin-top:10px;line-height:1.5}
 @media(max-width:760px){
- .rg-challenge-copy{padding:30px 20px 0}
- .rg-challenge-art{margin-top:340px}
+ .rg-challenge{min-height:0}
+ .rg-challenge-copy{grid-area:1/1;padding:20px 20px 0}
+ .rg-challenge-art{grid-area:2/1;margin-top:0}
+ .rg-challenge-actions{grid-area:3/1;padding:20px 20px 28px}
  .rg-challenge-cta{font-size:18px;min-height:56px;padding:13px 26px}
  .rg-models{gap:20px}
  .rg-model-label{padding:14px}
